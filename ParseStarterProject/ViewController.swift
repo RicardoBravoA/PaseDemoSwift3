@@ -17,9 +17,43 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         //Descomenta esta linea para probar que Parse funciona correctamente
-        self.testParseSave()
+        //self.testParseSave()
+        
+        saveUser()
+        
+        getUsers()
+        
     }
     
+    func saveUser(){
+        let user = PFObject(className: "Usuario")
+        user["name"] = "Ricardo"
+        user.saveInBackground { (success, error) -> Void in
+            if success {
+                print("Registro Insertado")
+            } else {
+                print(error!.localizedDescription)
+            }
+        }
+    }
+    
+    func getUsers(){
+        let query = PFQuery(className: "Usuario")
+        query.getObjectInBackground(withId: "qzDrjZv0ju") { (object, error) -> Void in
+            if error != nil {
+                print(error!.localizedDescription)
+            } else {
+                if let user = object {
+                    print(user)
+                    print("Usuario: \(user["name"]!)")
+                }
+            }
+        }
+        
+    }
+    
+    
+    /*
     func testParseSave() {
         let testObject = PFObject(className: "MyTestObject")
         testObject["foo"] = "bar"
@@ -35,6 +69,7 @@ class ViewController: UIViewController {
             }
         }
     }
+     */
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
